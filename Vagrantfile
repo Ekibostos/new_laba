@@ -55,6 +55,9 @@ Vagrant.configure("2") do |config|
         node.vm.network "private_network", ip: "192.168.56.105", :device => "eth4", :adapter => 4, :netmask => "255.255.255.0", auto_config: false
         node.vm.provision "shell", inline: $edit_sshd
         node.vm.provision "shell", inline: "iptables -A INPUT -i eth0 -j DROP"
+        (0..1).each do |i|
+			node.vm.disk :disk, size: "5GB", name: "disk-#{i}"
+		end
         node.vm.provider "virtualbox" do |vb|
             vb.cpus = 1
             vb.memory = "512"
